@@ -1,9 +1,6 @@
 package Puzzle;
 
-import PuzzleElements.Axis;
-import PuzzleElements.Bus;
-import PuzzleElements.Car;
-import PuzzleElements.Vehicle;
+import PuzzleElements.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -80,11 +77,26 @@ public class ListKRTest {
     **/
 
     //==============================================================//
-    //  toString method Test
+    //  getAllMovesSingleVehicle method Test
     //==============================================================//
 
+    @Test
+    void getAllMovesSingleCar1(){
+        ListKR puzzle = new ListKR();
+        Car testCar1 = new Car(new Integer[]{1,2},Axis.Horizontal,"C1");
+        Car testCar2 = new Car(new Integer[]{4,4},Axis.Vertical,"C2");
+        puzzle.addVehicle(testCar1);
+        puzzle.addVehicle(testCar2);
+        System.out.println(puzzle.toString());
+        puzzle.getAllMovesForSingleVehicle(testCar1);
+    }
+
+    @Test
+    void getAllMovesSingleCar2(){
+
+    }
     //==============================================================//
-    //  addTargetCar method Test
+    //  addTargetVehicle method Test
     //==============================================================//
 
     //==============================================================//
@@ -197,7 +209,7 @@ public class ListKRTest {
         puzzle.addVehicle(car2);
         puzzle.addVehicle(bus1);
         String expected =
-                "C1||  ||  ||  ||  ||  ||\n" +
+                        "C1||  ||  ||  ||  ||  ||\n" +
                         "==||==||==||==||==||==||\n" +
                         "C1||  ||C2||C2||  ||  ||\n" +
                         "==||==||==||==||==||==||\n" +
@@ -235,7 +247,7 @@ public class ListKRTest {
 
     @Test
     public void toStringCustomFilled1(){
-        ListKR puzzle = new ListKR(8,new Integer[]{8,8});
+        ListKR puzzle = new ListKR(8,new Integer[]{7,7});
         Car car1 = new Car(new Integer[]{1,0},Axis.Vertical, "C1");
         Car car2 = new Car(new Integer[]{3,0},Axis.Horizontal, "C2");
         Car car3 = new Car(new Integer[]{5,2},Axis.Vertical, "C3");
@@ -247,8 +259,9 @@ public class ListKRTest {
         Bus bus3 = new Bus(new Integer[]{7,2},Axis.Vertical, "B3");
         ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>(Arrays.asList(car1,car2,car3,car4,car5,car6,bus1,bus2,bus3));
         puzzle.replaceAllVehicles(vehicles);
+        System.out.println("\n" + puzzle.getVehicles());
         String expected =
-                "  ||C1||  ||C2||C2||  ||  ||  ||\n" +
+                        "  ||C1||  ||C2||C2||  ||  ||  ||\n" +
                         "==||==||==||==||==||==||==||==||\n" +
                         "  ||C1||  ||B2||B2||B2||  ||  ||\n" +
                         "==||==||==||==||==||==||==||==||\n" +
@@ -296,5 +309,39 @@ public class ListKRTest {
         String actual = puzzle.toString();
 
         Assertions.assertEquals(expected,actual);
+    }
+
+
+
+    //
+    //
+    //
+
+    @Test
+    public void singleVehiclepossibleMovesTest(){
+        ListKR puzzle = new ListKR(5,new Integer[]{0,4});
+        Car car1 = new Car(new Integer[]{0,3},Axis.Vertical, "C1");
+        puzzle.addVehicle(car1);
+        System.out.println(puzzle.toString());
+
+        ArrayList<Location> d = puzzle.singleVehiclepossibleMoves(car1);
+        for (Location a:d) {
+            System.out.println(a.toString());
+        }
+
+    }
+
+    @Test
+    public void singleVehicleMovesTest(){
+        ListKR puzzle = new ListKR(5,new Integer[]{0,4});
+        Car car1 = new Car(new Integer[]{0,3},Axis.Vertical, "C1");
+        puzzle.addVehicle(car1);
+        System.out.println(puzzle.toString());
+
+        ArrayList<PuzzleKR> d = puzzle.getAllMovesForSingleVehicle(car1);
+        for (PuzzleKR a:d) {
+            System.out.println(a.toString());
+        }
+
     }
 }

@@ -11,11 +11,11 @@ public interface PuzzleKR {
 
     Boolean moveVehicle(Vehicle car, Integer amount);
 
-    ArrayList<PuzzleKR> getAllMoves();
+    ArrayList<PuzzleKR> getAllMovesForAllVehicles();
 
     Boolean checkBoardLegal();
 
-    String getSolution();
+    String getMoveHistory();
 
     Boolean isPuzzleComplete();
 

@@ -50,14 +50,16 @@ public class ComboKrTest {
         Car car3 = new Car(new Integer[]{2, 0}, Axis.Vertical, "C3");
         Car car4 = new Car(new Integer[]{0, 3}, Axis.Horizontal,"C4");
         Bus bus1 = new Bus(new Integer[]{4, 0}, Axis.Vertical, "B1");
+        Car redCar = new Car(new Integer[]{0, 2}, Axis.Horizontal,"RR");
 
         puzzle.addVehicle(car1);
         puzzle.addVehicle(car2);
         puzzle.addVehicle(car3);
         puzzle.addVehicle(car4);
         puzzle.addVehicle(bus1);
+        puzzle.addVehicle(redCar);
 
-        ArrayList<Vehicle> expected = new ArrayList<Vehicle>(Arrays.asList(car1,car2,car3,car4,bus1));
+        ArrayList<Vehicle> expected = new ArrayList<Vehicle>(Arrays.asList(car1,car2,car3,car4,bus1,redCar));
         ArrayList<Vehicle> actual = puzzle.getVehiclesList();
 
         Assertions.assertArrayEquals(expected.toArray(),actual.toArray());
@@ -83,7 +85,7 @@ public class ComboKrTest {
     //==============================================================//
 
     //==============================================================//
-    //  addTargetCar method Test
+    //  addTargetVehicle method Test
     //==============================================================//
 
     //==============================================================//

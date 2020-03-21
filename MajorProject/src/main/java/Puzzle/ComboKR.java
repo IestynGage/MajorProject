@@ -42,7 +42,7 @@ public class ComboKR implements PuzzleKR{
         Integer horizontalLocation = newVehicle.getHorizontal();
         Integer verticalLocation = newVehicle.getVertical();
 
-        for(int i = 0;i<newVehicle.size;i++){
+        for(int i = 0;i<newVehicle.getSize();i++){
             puzzleMap[horizontalLocation][verticalLocation] = newVehicle;
             if(newVehicle.getAxis() == Axis.Horizontal){
                 horizontalLocation += 1;
@@ -68,9 +68,9 @@ public class ComboKR implements PuzzleKR{
         if(vehicle.getAxis() == Axis.Vertical){
             Integer totalCheck;
             if(amount>0){
-                totalCheck = vehicle.size + amount;
+                totalCheck = vehicle.getSize() + amount;
             } else{
-                totalCheck = vehicle.size;
+                totalCheck = vehicle.getSize();
             }
             if( (vehicle.getVertical()+totalCheck) >= puzzleMap.length ||
                     (vehicle.getVertical()+totalCheck) < 0){
@@ -92,7 +92,7 @@ public class ComboKR implements PuzzleKR{
 
     public ArrayList<Vehicle> getVehiclesList(){ return vehiclesList;}
 
-    public ArrayList<PuzzleKR> getAllMoves() {
+    public ArrayList<PuzzleKR> getAllMovesForAllVehicles() {
         return null;
     }
 
@@ -100,7 +100,7 @@ public class ComboKR implements PuzzleKR{
         return false;
     }
 
-    public String getSolution() {
+    public String getMoveHistory() {
         return solution;
     }
 

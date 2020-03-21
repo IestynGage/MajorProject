@@ -6,19 +6,19 @@ public class Location {
     private Integer xAxis;
     private Integer yAxis;
 
-    Location(Integer xAxis, Integer yAxis){
+    public Location(Integer xAxis, Integer yAxis){
         this.xAxis = xAxis;
         this.yAxis = yAxis;
     }
 
-    Location(Integer[] location){
+    public Location(Integer[] location){
         if(location.length==2){
             xAxis = location[0];
             yAxis = location[1];
         }
     }
 
-    Location(Location newLocation){
+    public Location(Location newLocation){
         this.xAxis = newLocation.getYAxis();
         this.yAxis = newLocation.getXAxis();
     }
@@ -41,6 +41,16 @@ public class Location {
 
     public Integer getYAxis(){
         return yAxis;
+    }
+
+    public Integer minus(Location other){
+        if(this.getYAxis()-other.getYAxis() != 0){
+            return this.getYAxis()-other.getYAxis();
+        } else if ((this.getXAxis() - other.getXAxis()) != 0){
+            return  this.getXAxis() - other.getXAxis();
+        } else {
+            return 0;
+        }
     }
 
     public String toString(){

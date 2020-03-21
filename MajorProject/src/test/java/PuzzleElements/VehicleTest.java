@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import java.util.ArrayList;
 
 public class VehicleTest {
-  /**
+
     @Test
     public void carVerticalMoveTest(){
         Integer[] theLocation = new Integer[]{3,3};
@@ -14,8 +14,8 @@ public class VehicleTest {
         testCar.move(3);
 
         Integer[] expected = new Integer[]{3,6};
-        Integer[] actual = testCar.getHeadLocation();
-        Assertions.assertArrayEquals(expected,actual);
+        Location actual = testCar.getHeadLocation();
+        Assertions.assertArrayEquals(expected,actual.toArray());
 
     }
 
@@ -26,10 +26,10 @@ public class VehicleTest {
         testCar.move(3);
 
         Integer[] expected = new Integer[]{6,3};
-        Integer[] actual = testCar.getHeadLocation();
-        Assertions.assertArrayEquals(expected,actual);
+        Location actual = testCar.getHeadLocation();
+        Assertions.assertArrayEquals(expected,actual.toArray());
     }
-
+/**
     @Test
     public void carMoveOutOfRangeTest(){
         Integer[] theLocation = new Integer[]{3,3};
@@ -37,8 +37,8 @@ public class VehicleTest {
         testCar.move(-5);
 
         Integer[] expected = new Integer[]{3,3};
-        Integer[] actual = testCar.getHeadLocation();
-        Assertions.assertArrayEquals(expected,actual);
+        Location actual = testCar.getHeadLocation();
+        Assertions.assertArrayEquals(expected,actual.toArray());
     }
 **/
     @Test
@@ -46,7 +46,7 @@ public class VehicleTest {
         Car testCar = new Car(new Integer[]{3,3},Axis.Horizontal,"C1");
         ArrayList<Location> actualList = testCar.getWholeBodyLocation();
         Integer[] expected0 = new Integer[]{3,3};
-        Integer[] expected1 = new Integer[]{3,4};
+        Integer[] expected1 = new Integer[]{4,3};
 
         Assertions.assertArrayEquals(expected0,actualList.get(0).toArray());
         Assertions.assertArrayEquals(expected1,actualList.get(1).toArray());
@@ -60,10 +60,10 @@ public class VehicleTest {
         ArrayList<Location> actualList2 = testCar2.getWholeBodyLocation();
 
         Integer[] car1Expected0 = new Integer[]{3,3};
-        Integer[] car1Expected1 = new Integer[]{4,3};
+        Integer[] car1Expected1 = new Integer[]{3,4};
 
         Integer[] car2Expected0 = new Integer[]{2,3};
-        Integer[] car2Expected1 = new Integer[]{3,3};
+        Integer[] car2Expected1 = new Integer[]{2,4};
 
         Assertions.assertArrayEquals(car1Expected0,actualList1.get(0).toArray());
         Assertions.assertArrayEquals(car1Expected1,actualList1.get(1).toArray());
@@ -71,6 +71,7 @@ public class VehicleTest {
         Assertions.assertArrayEquals(car2Expected0,actualList2.get(0).toArray());
         Assertions.assertArrayEquals(car2Expected1,actualList2.get(1).toArray());
     }
+
     @Test
     public void carToStringTest(){
         Car testCar = new Car(new Integer[]{3,3},Axis.Horizontal,"C1");
@@ -120,8 +121,8 @@ public class VehicleTest {
         Bus testBus = new Bus(new Integer[]{3,3},Axis.Horizontal,"B1");
         ArrayList<Location> actualList = testBus.getWholeBodyLocation();
         Integer[] expected0 = new Integer[]{3,3};
-        Integer[] expected1 = new Integer[]{3,4};
-        Integer[] expected2 = new Integer[]{3,5};
+        Integer[] expected1 = new Integer[]{4,3};
+        Integer[] expected2 = new Integer[]{5,3};
 
         Assertions.assertArrayEquals(expected0,actualList.get(0).toArray());
         Assertions.assertArrayEquals(expected1,actualList.get(1).toArray());
@@ -133,8 +134,8 @@ public class VehicleTest {
         Bus testBus = new Bus(new Integer[]{3,3},Axis.Vertical,"B1");
         ArrayList<Location> actualList = testBus.getWholeBodyLocation();
         Integer[] expected0 = new Integer[]{3,3};
-        Integer[] expected1 = new Integer[]{4,3};
-        Integer[] expected2 = new Integer[]{5,3};
+        Integer[] expected1 = new Integer[]{3,4};
+        Integer[] expected2 = new Integer[]{3,5};
 
         Assertions.assertArrayEquals(expected0,actualList.get(0).toArray());
         Assertions.assertArrayEquals(expected1,actualList.get(1).toArray());

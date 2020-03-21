@@ -7,7 +7,18 @@ public class Vehicle extends Tile {
     Location headLocation;
     Axis axis;
     String vehicleID;
-    public Integer size;
+    Integer size;
+
+    public Vehicle(String vehicleID){
+        this.vehicleID = vehicleID;
+    }
+
+    public Vehicle(Vehicle original){
+        this.headLocation = new Location(original.getHeadLocation().toArray());
+        this.axis = original.getAxis();
+        this.vehicleID = original.vehicleID;
+        size = original.size;
+    }
 
     public void move(Integer amount){
         if(axis==Axis.Horizontal){
@@ -79,6 +90,10 @@ public class Vehicle extends Tile {
         return headLocation.getYAxis();
     }
 
+    public Integer getSize() {
+        return size;
+    }
+
     public Location getMovedMaxPosition(Integer amount){
         if(axis == Axis.Vertical){
             if(amount>0){
@@ -88,9 +103,9 @@ public class Vehicle extends Tile {
             }
         } else if (axis == Axis.Horizontal){
             if(amount>0){
-                return new Location(headLocation.getYAxis()+ amount + size-1, headLocation.getYAxis());
+                return new Location(headLocation.getXAxis()+ amount + size-1, headLocation.getYAxis());
             } else {
-                return new Location(headLocation.getYAxis()+ amount, headLocation.getYAxis());
+                return new Location(headLocation.getXAxis()+ amount, headLocation.getYAxis());
             }
         } else {
             System.err.println("No Axis set");
@@ -102,17 +117,14 @@ public class Vehicle extends Tile {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
         Vehicle vehicle = (Vehicle) o;
-        return headLocation.equals(vehicle.headLocation) &&
-                axis == vehicle.axis &&
-                vehicleID.equals(vehicle.vehicleID) &&
-                size.equals(vehicle.size);
+        return vehicleID.equals(vehicle.vehicleID);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(axis, vehicleID, size);
+        int result = Objects.hash(vehicleID);
         result = 31 * result;
         return result;
     }
