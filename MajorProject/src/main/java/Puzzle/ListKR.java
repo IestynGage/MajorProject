@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class ListKR implements PuzzleKR {
 
     private ArrayList<Vehicle> vehicles;
-    private Vehicle targetVehicle;
+    private final String targetVehicle = "TT";
     private Integer mapSize;
     private Location exitTile;
 
@@ -56,6 +56,30 @@ public class ListKR implements PuzzleKR {
     }
 
     /**
+     * Constructer for ListKR
+     * Creates a deep copy of the original ListKR.
+     *
+     * @param original the ListKR to copy
+     */
+    public ListKR(ListKR original){
+        if(original.getVehicles()!=null){
+            vehicles = new ArrayList<>();
+
+            for (Vehicle vehicle:original.getVehicles()) {
+                vehicles.add(new Vehicle(vehicle));
+            }
+        }
+
+        if(original.mapSize!=null){
+            this.mapSize = new Integer(original.mapSize);
+        }
+
+        if(original.exitTile!=null){
+            this.exitTile = new Location(original.exitTile);
+        }
+    }
+
+    /**
      * Adds a vehicle to the vehicles ArrayList. Checks if arrayList is null before adding.
      *
      * @param newVehicle new vehicle to add to the arrayList
@@ -77,7 +101,6 @@ public class ListKR implements PuzzleKR {
      * @param targetVehicle the vehicle added thats needs to move onto the exit tile.
      */
     public void addTargetVehicle(Vehicle targetVehicle){
-        this.targetVehicle = targetVehicle;
         vehicles.add(targetVehicle);
     }
 
@@ -102,7 +125,6 @@ public class ListKR implements PuzzleKR {
      */
     @Override
     public Boolean moveVehicle(Vehicle vehicle, Integer amount) {
-
         ArrayList<Location> locationOfEachMove = vehicle.getPathToLocation(amount);
         vehicles.remove(vehicle);
         for (Vehicle vehicleToCheck : vehicles) {
@@ -147,6 +169,24 @@ public class ListKR implements PuzzleKR {
     }
 
     /**
+     * gets the target vehicle
+     * @return target vehicle
+     */
+    public Vehicle getTargetVehicle(){
+        return null;
+        //TODO: remove targetCar
+    }
+
+    /**
+     * Gets the exit Tile Location
+     *
+     * @return exitTile which is Location object
+     */
+    public Location getExitTile(){
+        return exitTile;
+    }
+
+    /**
      * This returns all possible legal states that this state cna change into.
      *
      * @return ArrayList of all possible States this current state can trnaform into.
@@ -164,27 +204,24 @@ public class ListKR implements PuzzleKR {
     /**
      * This gets all legals moves a single vehicle can make
      *
-     * @param theVehicle the vehicle you want all moves to.
+     * @param vehicleToMove the vehicle you want all moves to.
      * @return ArrayList of PuzzleKR with each one with unique move the vehicle could make.
      */
-    public ArrayList<PuzzleKR> getAllMovesForSingleVehicle(Vehicle theVehicle){
+    public ArrayList<PuzzleKR> getAllMovesForSingleVehicle(Vehicle vehicleToMove){
         //possible moves
-        ArrayList<Location> possibleMoves = this.singleVehiclepossibleMoves(theVehicle);
+        ArrayList<Location> possibleMoves = this.getSingleVehiclePossibleMoves(vehicleToMove);
         ArrayList<PuzzleKR> allMoves = new ArrayList<>();
 
         for(Location possibleMove:possibleMoves){
-            Integer theAmount = possibleMove.minus(theVehicle.getHeadLocation());
+            Integer theAmount = possibleMove.minus(vehicleToMove.getHeadLocation());
 
-            if(this.checkVehicleMove(theVehicle,theAmount)){
-                PuzzleKR newPuzzle = new ListKR(mapSize,exitTile);
-                ArrayList<Vehicle> cloneList = new ArrayList<>();
+            if(this.checkVehicleMove(vehicleToMove,theAmount)){
+                ListKR newPuzzle = new ListKR(this);
+                Vehicle cleanCopy = newPuzzle.getVehicle(vehicleToMove.toString());
+                //If this vehicle isn't used then each vehicle moved would link to each other, thus all puzzles
+                //produced will have the 'vehicleToMove' object at the same location
+                newPuzzle.moveVehicle(cleanCopy,theAmount);
 
-                for (Vehicle origonalCopy:vehicles) {
-                    cloneList.add(new Vehicle(origonalCopy));
-                }
-
-                newPuzzle.replaceAllVehicles(cloneList);
-                newPuzzle.moveVehicle(theVehicle,theAmount);
                 allMoves.add(newPuzzle);
             }
         }
@@ -199,7 +236,7 @@ public class ListKR implements PuzzleKR {
      * @param theVehicle the vehicle you wish to move
      * @return an array list of possible locations the vehicle could move to, even if another vehicles on it.
      */
-    public ArrayList<Location> singleVehiclepossibleMoves(Vehicle theVehicle){
+    public ArrayList<Location> getSingleVehiclePossibleMoves(Vehicle theVehicle){
         Location startLocation;
         ArrayList<Location> possibleMoves= new ArrayList<>();
         if(theVehicle.getAxis()==Axis.Horizontal){
@@ -209,15 +246,12 @@ public class ListKR implements PuzzleKR {
         }
         possibleMoves.add(startLocation);
         //add Possible Moves
-        for(int i=0;i<(mapSize-1);i++){
+        for(int i=0;i<(mapSize-2);i++){
             Location newLocation = new Location(possibleMoves.get(i).toArray());
             newLocation.add(theVehicle.getAxis(),1);
             possibleMoves.add(newLocation);
         }
-        //removes 'moving onto it self' as a possible move
-        for(Location pieceCarBody:theVehicle.getWholeBodyLocation()){
-            possibleMoves.remove(pieceCarBody);
-        }
+        possibleMoves.remove(theVehicle.getHeadLocation());
 
         return  possibleMoves;
     }
@@ -248,8 +282,9 @@ public class ListKR implements PuzzleKR {
      */
     @Override
     public Boolean isPuzzleComplete() {
-        if(targetVehicle !=null){
-            ArrayList<Location> redCarBodyLocation = targetVehicle.getWholeBodyLocation();
+        Vehicle target = this.getVehicle("TT");
+        if(target !=null){
+            ArrayList<Location> redCarBodyLocation = target.getWholeBodyLocation();
             for (Location bodyLocation:redCarBodyLocation) {
                 if(bodyLocation.equals(exitTile)){
                     return true;

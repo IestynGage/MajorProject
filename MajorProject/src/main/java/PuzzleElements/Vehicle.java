@@ -9,17 +9,32 @@ public class Vehicle extends Tile {
     String vehicleID;
     Integer size;
 
+    /**
+     * Creates a new vehicle object with vehicleID. All other variables are null.
+     *
+     * @param vehicleID
+     */
     public Vehicle(String vehicleID){
         this.vehicleID = vehicleID;
     }
 
+    /**
+     * Creates a copy of another vehicle
+     *
+     * @param original the vehicle to copy
+     */
     public Vehicle(Vehicle original){
-        this.headLocation = new Location(original.getHeadLocation().toArray());
+        this.headLocation = new Location(original.getHeadLocation());
         this.axis = original.getAxis();
         this.vehicleID = original.vehicleID;
         size = original.size;
     }
 
+    /**
+     * Moves the vehicle depending on the axis.
+     *
+     * @param amount the amount the vehicle location moved by
+     */
     public void move(Integer amount){
         if(axis==Axis.Horizontal){
             headLocation.add(Axis.Horizontal,amount);
@@ -31,10 +46,20 @@ public class Vehicle extends Tile {
         }
     }
 
+    /**
+     * Gets the location of where the head node is.
+     *
+     * @return Location object of where the head node is.
+     */
     public Location getHeadLocation() {
         return headLocation;
     }
 
+    /**
+     * Gets arraylist of the whole body.
+     *
+     * @return ArrayList<Location> of the whole body.
+     */
     public ArrayList<Location> getWholeBodyLocation(){
         ArrayList<Location> location = new ArrayList<>();
         location.add(headLocation);
@@ -46,7 +71,21 @@ public class Vehicle extends Tile {
         return location;
     }
 
-    //Returns true if is on location else it's false if it's not on location
+    /**
+     * Gets the vehicleID
+     *
+     * @return vehicleId
+     */
+    public String getVehicleID(){
+        return vehicleID;
+    }
+
+    /**
+     * checks if the vehicle is at a location
+     *
+     * @param theLocation Location to check if the vehicle is on
+     * @return true if is on location else it's false if it's not on location
+     */
     public Boolean isOnLocation(Location theLocation){
         ArrayList<Location> allLocation = this.getWholeBodyLocation();
         for (Location locationToCheck : allLocation) {
@@ -57,6 +96,12 @@ public class Vehicle extends Tile {
         return false;
     }
 
+    /**
+     * Gets the path from where vehcile is to the location
+     *
+     * @param amount needed to be moved to get to the location
+     * @return ArrayList<Location> of the locations need to be visited to get to the destination
+     */
     public ArrayList<Location> getPathToLocation(Integer amount){
         if(amount==0){
             return new ArrayList<>();
@@ -70,30 +115,64 @@ public class Vehicle extends Tile {
         return path;
     }
 
+    /**
+     * Sets the head location
+     *
+     * @param headLocation
+     */
     public void setHeadLocation(Location headLocation) {
         this.headLocation = headLocation;
     }
 
+    /**
+     * Gets the object's axis
+     *
+     * @return axis the vehicle on
+     */
     public Axis getAxis() {
         return axis;
     }
 
+    /**
+     * Sets the axis of the vehicle
+     *
+     * @param axis
+     */
     public void setAxis(Axis axis) {
         this.axis = axis;
     }
 
+    /**
+     * Gets the X axis of head location
+     * @return the x axis of the location
+     */
     public Integer getHorizontal(){
         return headLocation.getXAxis();
     }
 
+    /**
+     * Gets y axis of head location
+     * @return
+     */
     public Integer getVertical(){
         return headLocation.getYAxis();
     }
 
+    /**
+     * Gets the vehicle size
+     *
+     * @return integer of the vehicle size
+     */
     public Integer getSize() {
         return size;
     }
 
+    /**
+     * Calculates the distance to location with the size of body
+     *
+     * @param amount
+     * @return Location of the head location after it's moved.
+     */
     public Location getMovedMaxPosition(Integer amount){
         if(axis == Axis.Vertical){
             if(amount>0){
@@ -114,6 +193,12 @@ public class Vehicle extends Tile {
         }
     }
 
+    /**
+     * Checks if o is equal to this object
+     *
+     * @param o object to be checked
+     * @return true if both objects are equal else false.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -129,6 +214,11 @@ public class Vehicle extends Tile {
         return result;
     }
 
+    /**
+     * Returns the vehicle ID
+     *
+     * @return vehicleID
+     */
     public String toString(){
         return vehicleID;
     }

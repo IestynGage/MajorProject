@@ -6,7 +6,16 @@ import org.junit.jupiter.api.Assertions;
 import java.util.ArrayList;
 
 public class VehicleTest {
+    @Test
+    public void vehicleDeepCopyTest(){
+        Vehicle actual = new Car(new Integer[]{3,3},Axis.Vertical,"C1");
+        Vehicle clone = new Vehicle(actual);
+        clone.move(5);
 
+        Location expected = new Location(3,3);
+
+        Assertions.assertArrayEquals(expected.toArray(),actual.getHeadLocation().toArray());
+    }
     @Test
     public void carVerticalMoveTest(){
         Integer[] theLocation = new Integer[]{3,3};
